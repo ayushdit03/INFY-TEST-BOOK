@@ -1,5 +1,6 @@
 import express from 'express';
-import { connect } from 'mongoose';
+import mongoose from 'mongoose';
+const { connect } = mongoose;
 import bookRoutes from './routes/book.js';
 import borrowRoutes from './routes/borrow.js';
 import returnRoutes from './routes/return.js';
