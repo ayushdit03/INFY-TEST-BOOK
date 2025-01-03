@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { hash, compare } from 'bcrypt';
+import bcrypt from 'bcryptjs';  // Use bcryptjs only
+
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
@@ -14,7 +15,7 @@ router.post('/register', async (req, res) => {
       return res.status(400).send('Username already exists');
     }
 
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10); // Use bcryptjs for hashing
 
     const user = new User({
       name,
@@ -41,7 +42,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).send('Invalid credentials');
     }
 
-    const isMatch = await compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password); // Use bcryptjs for comparison
     if (!isMatch) {
       return res.status(400).send('Invalid credentials');
     }
