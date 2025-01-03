@@ -4,22 +4,18 @@ import Book from '../models/Book.js';
 
 const router = Router();
 
-// Borrow a book
 router.post('/', async (req, res) => {
   try {
     const { username, bookid } = req.body;
 
-    // Check if the book is available
-    const book = await Book.findById(bookid); // Use Book.findById() correctly
+    const book = await Book.findById(bookid); 
     if (!book || !book.available) {
       return res.status(400).send('Book not available');
     }
 
-    // Create a borrow record
     const borrow = new Borrow({ username, bookid, borrowedAt: new Date() });
     await borrow.save();
 
-    // Mark the book as unavailable
     book.available = false;
     await book.save();
 
